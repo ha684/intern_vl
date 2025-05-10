@@ -33,11 +33,11 @@ srun -p ${PARTITION} \
   --kill-on-bad-exit=1 \
   --quotatype=${QUOTA_TYPE} \
   ${SRUN_ARGS} \
-  python -u internvl/train/internvl_chat_mpo.py \
+  python -u internvl/train/internvl_chat_finetune.py \
   --model_name_or_path "OpenGVLab/InternVL3-1B-Instruct" \
   --conv_style "internvl2_5" \
   --output_dir ${OUTPUT_DIR} \
-  --meta_path "MMPR-v1.2/meta.json" \
+  --hf_dataset_name "ha684/legal_cleaned" \
   --overwrite_output_dir False \
   --force_image_size 448 \
   --down_sample_ratio 0.5 \
@@ -49,7 +49,7 @@ srun -p ${PARTITION} \
   --vision_select_layer -1 \
   --use_data_resampling False \
   --dataloader_num_workers 8 \
-  --bf16 True \
+  --fp16 True \
   --num_train_epochs 1 \
   --per_device_train_batch_size ${PER_DEVICE_BATCH_SIZE} \
   --gradient_accumulation_steps ${GRADIENT_ACC} \
@@ -69,7 +69,7 @@ srun -p ${PARTITION} \
   --dynamic_image_size True \
   --use_thumbnail True \
   --ps_version 'v2' \
-  --deepspeed "zero_stage1_config.json" \
+  --deepspeed "zero_stage2_config.json" \
   --report_to "tensorboard" \
   --loss_type sigmoid,bco_pair \
   --sigmoid_loss_weight 0.8 \
